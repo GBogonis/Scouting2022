@@ -7,7 +7,7 @@ const config = {
     firebase_appId: "",
     firebase_measurementId: "",
 
-    database_collection: "example-database",
+    database_collection: "ChefsDatabase",
     database_pit_suffix: "-pit"
 }
     

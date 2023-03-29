@@ -63,19 +63,19 @@ class TeamListItem extends react.Component{
     var total = 0;
     this.state.snapshot.forEach(entry => {
       if (entry.get("teamNumber") === teamNum){
-          total += (entry.get("teleLow") + entry.get("teleHigh") + entry.get("autoLow") + entry.get("autoHigh"))
+          total += (entry.get("teleLow") + entry.get("teleMid") + entry.get("teleHigh") + entry.get("autoLow") + entry.get("autoMid") + entry.get("autoHigh"))
       }
     })
     return total;
   }
 
-  climb_data(teamNum){
+  balance_data(teamNum){
     // requires state.data (should also be up to date)
     var results = [] // ints only
     this.state.snapshot.forEach(entry => {
       if (entry.get("teamNumber") === teamNum){
-        if (!(entry.get("climbLevel") === "None")){
-          var numLevel = (entry.get("climbLevel")).match(/(\d+)/)[0]
+        if (!(entry.get("balanceLevel") === "None")){
+          var numLevel = (entry.get("balanceLevel")).match(/(\d+)/)[0]
           results.push(parseInt(numLevel));
         } else {
           // none, so 0
@@ -131,15 +131,17 @@ class TeamListItem extends react.Component{
         listgroupItems.push([element_id, tnum])
         collapseItems.push([element_id, tmatches, //0,1
           this.point_average("teleLow", tnum), //2
-          this.point_average("teleHigh", tnum), //3
-          this.point_average("autoLow", tnum), //4
-          this.point_average("autoHigh", tnum), //5
-          this.climb_data(tnum), //6
-          this.combine_notes(tnum), //7
-          this.entry_amount(tnum), //8
-          this.total_points(tnum), //9
-          this.auto_move_data(tnum), //10
-          tnum //11
+          this.point_average("teleMid", tnum), //3
+          this.point_average("teleHigh", tnum), //4
+          this.point_average("autoLow", tnum), //5
+          this.point_average("autoMid", tnum), //6
+          this.point_average("autoHigh", tnum), //7
+          this.balance_data(tnum), //8
+          this.combine_notes(tnum), //9
+          this.entry_amount(tnum), //10
+          this.total_points(tnum), //11
+          this.auto_move_data(tnum), //12
+          tnum //13
         ])
         addedTeams.push(tnum);
       }
@@ -188,10 +190,10 @@ class TeamListItem extends react.Component{
             Moved? {entry[10][0]} yes / {entry[10][2]}total<br/>
             Average Points: {entry[4]} low, {entry[5]} high
             <br/><br/>
-            Average climb height: {entry[6][0]} <br/>
-            Max/best climb height reached: {humanize.ordinal(entry[6][1])} bar <br/>
-            Min/worst climb height reached: {humanize.ordinal(entry[6][2])} bar <br/>
-            All climbs: {humanizeList(entry[6][3])}
+            Average balance level: {entry[6][0]} <br/>
+            Max/best balance level reached: {humanize.ordinal(entry[6][1])} bar <br/>
+            Min/worst balance level reached: {humanize.ordinal(entry[6][2])} bar <br/>
+            All balances: {humanizeList(entry[6][3])}
             <br/><br/>
             Total points: {entry[9]} <br/>
             Other notes: {entry[7]} <br/>

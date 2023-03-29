@@ -6,9 +6,13 @@ class database {
     constructor(colName){
         this.collection = colName;
         const firebaseApp = initializeApp({
-            apiKey: config['firebase_key'],
-            authDomain: config['firebase_auth_domain'],
-            projectId: config['firebase_project_id']
+            apiKey: "AIzaSyDChI6tu5DEGmb9srmKXrWhZmQuhCz7bQs",
+            authDomain: "scouting-138.firebaseapp.com",
+            projectId: "scouting-138",
+            storageBucket: "scouting-138.appspot.com",
+            messagingSenderId: "637071732028",
+            appId: "1:637071732028:web:173602304a0215136f4239",
+            measurementId: "G-J8R7BX6SL9"
           })
         this.app = firebaseApp;
         this.db = getFirestore(); // useless

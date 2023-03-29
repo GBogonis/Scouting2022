@@ -85,14 +85,14 @@ class MatchListItem extends react.Component{
     return total;
   }
 
-  climb_data(matchNum, alliance){
+  balance_data(matchNum, alliance){
     // requires state.data (should also be up to date)
     var results = [] // ints only
     var noData = "No data!"
     this.state.snapshot.forEach(entry => {
       if (entry.get("matchNumber") === matchNum){
         if (entry.get("allianceColor").toLowerCase() === alliance){
-          results.push(entry.get("climbLevel"));
+          results.push(entry.get("balanceLevel"));
         }
     }
     })
@@ -107,6 +107,7 @@ class MatchListItem extends react.Component{
     // requires state.data (should also be up to date)
     var moved = 0;
     var scoredLow = 0;
+    var scoredMid = 0;
     var scoredHigh = 0;
     this.state.snapshot.forEach(entry => {
       if (entry.get("matchNumber") === matchNum){
@@ -114,13 +115,14 @@ class MatchListItem extends react.Component{
           if (entry.get("autoMoved")){
             moved += 1;
             scoredLow += entry.get("autoLow")
+            scoredMid += entry.get("autoMid")
             scoredHigh += entry.get("autoHigh")
           }
         }
       }
       
     })
-    return [moved, scoredLow, scoredHigh] // last one is for total
+    return [moved, scoredLow, scoredMid, scoredHigh] // last one is for total
   }
 
   combine_notes(teamNum){
@@ -148,8 +150,8 @@ class MatchListItem extends react.Component{
           this.get_match_teams(mnum, "red"), //3
           this.point_average("finalBlue", mnum), //4 
           this.point_average("finalRed", mnum), //5   
-          this.climb_data(mnum, "blue"), //6
-          this.climb_data(mnum, "red"), //7
+          this.balance_data(mnum, "blue"), //6
+          this.balance_data(mnum, "red"), //7
           this.entry_amount(mnum), //8
           this.auto_move_data(mnum, "blue"), //9
           this.auto_move_data(mnum, "red"), //10
@@ -183,7 +185,9 @@ class MatchListItem extends react.Component{
       </ListGroupItem>
     ))
 
+    console.log(collapseItems);
     var newCollapseItems = collapseItems.map((entry) => (
+      
       // for this: entry[0] = it's ID (e.g. team138)
       // entry[1] = the raw team number
       <UncontrolledCollapse toggler={entry[0]}>
@@ -194,13 +198,13 @@ class MatchListItem extends react.Component{
             vs
             <h4 style={{color: 'red'}}>{entry[3].toString()}  @ {entry[5]} points</h4>
             <br/><br/>
-            <h5>Climb Data</h5>
+            <h5>Balance Data</h5>
             <body style={{color: 'blue'}}>{entry[6]}</body>
             <body style={{color: 'red'}}>{entry[7]}</body>
             <br/>
             <h5>Auto Data</h5>
-            <body style={{color: 'blue'}}>{entry[9][0]} robots moved<br/>{entry[9][1]} balls scored low, {entry[9][2]} balls scored high</body>
-            <body style={{color: 'red'}}>{entry[10][0]} robots moved<br/>{entry[10][1]} balls scored low, {entry[10][2]} balls scored high</body>
+            <body style={{color: 'blue'}}>{entry[9][0]} robots moved<br/>{entry[9][1]} objects scored low, {entry[9][2]} objects scored high</body>
+            <body style={{color: 'red'}}>{entry[10][0]} robots moved<br/>{entry[10][1]} object scored low, {entry[10][2]} objects scored high</body>
             <br/>Times scouted: {entry[8]}
           </CardBody>
         </Card>

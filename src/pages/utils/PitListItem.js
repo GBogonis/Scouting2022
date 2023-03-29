@@ -102,6 +102,7 @@ class PitListItem extends react.Component{
     // requires state.data (should also be up to date)
     var moved = 0;
     var scoredLow = 0;
+    var scoredMid = 0;
     var scoredHigh = 0;
     this.state.snapshot.forEach(entry => {
       if (entry.get("matchNumber") === matchNum){
@@ -109,13 +110,14 @@ class PitListItem extends react.Component{
           if (entry.get("autoMoved")){
             moved += 1;
             scoredLow += entry.get("autoLow")
+            scoredMid += entry.get("autoLow")
             scoredHigh += entry.get("autoHigh")
           }
         }
       }
       
     })
-    return [moved, scoredLow, scoredHigh] // last one is for total
+    return [moved, scoredLow, scoreMid, scoredHigh] // last one is for total
   }
 
   combine_notes(teamNum){

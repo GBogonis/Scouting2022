@@ -14,12 +14,15 @@ const formData = Object({
   teamNum: 0,
   matchNum: 0,
   allianceColor: '',
-  autoScoredLow: 0,
-  autoScoredHigh: 0,
+  autoScoredObjectsLow: 0,
+  autoScoredObjectsMid: 0,
+  autoScoredObjectsHigh: 0,
   autoMoved: Boolean,
-  teleScoredLow: 0,
-  teleScoreHigh: 0,
-  climbLevel: '',
+  teleScoredObjectsLow: 0,
+  teleScoredObjectsMid: 0,
+  teleScoredObjectsHigh: 0,
+  scorableObjects: '',
+  balanceLevel: '',
   finalScoreBlue: 0,
   finalScoreRed: 0,
   notes: 'None',
@@ -29,6 +32,7 @@ const Entry = (props) => {
   const [disable, setDisable] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
   function submitForm(e){
+    console.log(formData)
     e.preventDefault();
     try {
       setDisable(true)
@@ -40,12 +44,14 @@ const Entry = (props) => {
         teamNumber: formData.teamNum.valueAsNumber || 0,
         matchNumber: formData.matchNum.valueAsNumber || 0,
         allianceColor: formData.allianceColor.value,
-        autoLow: formData.autoScoredLow.valueAsNumber || 0,
-        autoHigh: formData.autoScoredHigh.valueAsNumber || 0,
+        autoLow: formData.autoScoredObjectsLow.valueAsNumber || 0,
+        autoMid: formData.autoScoredObjectsMid.valueAsNumber || 0,
+        autoHigh: formData.autoScoredObjectsHigh.valueAsNumber || 0,
         autoMoved: formData.autoMoved.checked,
-        teleLow: formData.teleScoredLow.valueAsNumber || 0,
-        teleHigh: formData.teleScoreHigh.valueAsNumber || 0,
-        climbLevel: formData.climbLevel.value,
+        teleLow: formData.teleScoredObjectsLow.valueAsNumber || 0,
+        teleMid: formData.teleScoredObjectsMid.valueAsNumber || 0,
+        teleHigh: formData.teleScoredObjectsHigh.valueAsNumber || 0,
+        balanceLevel: formData.balanceLevel.value,
         finalBlue: formData.finalScoreBlue.valueAsNumber || 0,
         finalRed: formData.finalScoreRed.valueAsNumber || 0,
         notes: formData.notes.value || 'None',
@@ -141,8 +147,8 @@ const Entry = (props) => {
             </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="autoScoredLow" sm={2}>
-            Auto Scored: Low goal
+          <Label for="autoScoredObjectsLow" sm={2}>
+            Auto Scored Objects Low
           </Label>
           <Col sm={10}>
             <Input
@@ -150,22 +156,37 @@ const Entry = (props) => {
               name="autoScored"
               placeholder="e.g. 3"
               type="number"
-              innerRef={(node) => formData.autoScoredLow = node}
+              innerRef={(node) => formData.autoScoredObjectsLow = node}
             
             />
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="autoScoredHigh" sm={2}>
-            Auto Scored: High goal
+          <Label for="autoScoredObjectsMid" sm={2}>
+            Auto Scored Objects Mid
           </Label>
           <Col sm={10}>
             <Input
               id="autoScored"
               name="autoScored"
-              placeholder="e.g. 4"
+              placeholder="e.g. 1"
               type="number"
-              innerRef={(node) => formData.autoScoredHigh = node}
+              innerRef={(node) => formData.autoScoredObjectsMid = node}
+            
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label for="autoScoredObjectsHigh" sm={2}>
+            Auto Scored Objects High
+          </Label>
+          <Col sm={10}>
+            <Input
+              id="autoScored"
+              name="autoScored"
+              placeholder="e.g. 1"
+              type="number"
+              innerRef={(node) => formData.autoScoredObjectsHigh = node}
             
             />
           </Col>
@@ -175,8 +196,8 @@ const Entry = (props) => {
           Teleop
         </h4>
         <FormGroup row>
-          <Label for="teleScoredLow" sm={2}>
-            Teleop Scored: Low goal
+          <Label for="teleScoredObjectsLow" sm={2}>
+            Teleop Scored Objects Low
           </Label>
           <Col sm={10}>
             <Input
@@ -184,14 +205,29 @@ const Entry = (props) => {
               name="teleScored"
               placeholder="e.g. 5"
               type="number"
-              innerRef={(node) => formData.teleScoredLow = node}
+              innerRef={(node) => formData.teleScoredObjectsLow = node}
             
             />
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="teleScoredHigh" sm={2}>
-            Teleop Scored: High goal
+          <Label for="teleScoredObjectsMid" sm={2}>
+            Teleop Scored Object Mid
+          </Label>
+          <Col sm={10}>
+            <Input
+              id="teleScored"
+              name="teleScored"
+              placeholder="e.g. 3"
+              type="number"
+              innerRef={(node) => formData.teleScoredObjectsMid = node}
+            
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label for="teleScoredObjectsHigh" sm={2}>
+            Teleop Scored Object High
           </Label>
           <Col sm={10}>
             <Input
@@ -199,36 +235,33 @@ const Entry = (props) => {
               name="teleScored"
               placeholder="e.g. 6"
               type="number"
-              innerRef={(node) => formData.teleScoreHigh = node}
+              innerRef={(node) => formData.teleScoredObjectsHigh = node}
             
             />
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="climbLevel" sm={2}>
-            Climb Level
+          <Label for="balanceLevel" sm={2}>
+            Balance Level
           </Label>
           <Col sm={10}>
             <Input
-              id="climbLevel"
-              name="climb"
+              id="balanceLevel"
+              name="balance"
               type="select"
-              innerRef={(node) => formData.climbLevel = node}
+              innerRef={(node) => formData.balanceLevel = node}
             >
               <option>
                 None
               </option>
               <option>
-                Low (1)
+                Park (1)
               </option>
               <option>
-                Mid (2)
+                Docked (2)
               </option>
               <option>
-                High (3)
-              </option>
-              <option>
-                Traversal (4)
+                Engaged (3)
               </option>
             </Input>
           </Col>
