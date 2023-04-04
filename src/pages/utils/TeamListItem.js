@@ -57,6 +57,16 @@ class TeamListItem extends react.Component{
     return average;
   }
 
+  object_data(type, teamNum){
+    var results = [] // ints only
+    this.state.snapshot.forEach(entry => {
+      if (entry.get("teamNumber") === teamNum){
+          results.push(entry.get(type));
+      }
+    })
+    return results
+  }
+
   total_points(teamNum){
     // total points for EVERYTHING (teleop, auto, low and high)
     // requires state.data (should also be up to date)
@@ -187,13 +197,13 @@ class TeamListItem extends react.Component{
             Average Points: {entry[2]} low, {entry[3]} high
             <br/><br/>
             <h5>Auto</h5>
-            Moved? {entry[10][0]} yes / {entry[10][2]}total<br/>
+            Moved? {entry[10]} yes / {entry[10]}total<br/>
             Average Points: {entry[4]} low, {entry[5]} high
             <br/><br/>
-            Average balance level: {entry[6][0]} <br/>
-            Max/best balance level reached: {humanize.ordinal(entry[6][1])} bar <br/>
-            Min/worst balance level reached: {humanize.ordinal(entry[6][2])} bar <br/>
-            All balances: {humanizeList(entry[6][3])}
+            Average balance level: {entry[6]} <br/>
+            Max/best balance level reached: {humanize.ordinal(entry[8])} bar <br/>
+            Min/worst balance level reached: {humanize.ordinal(entry[8])} bar <br/>
+            All balances: {humanizeList(entry[8])}
             <br/><br/>
             Total points: {entry[9]} <br/>
             Other notes: {entry[7]} <br/>

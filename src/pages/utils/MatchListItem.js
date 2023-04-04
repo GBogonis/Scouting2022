@@ -67,6 +67,25 @@ class MatchListItem extends react.Component{
     return average;
   }
 
+  object_data(matchNum, alliance){
+    // does some data based on if they moved or not
+    // requires state.data (should also be up to date)
+    var scoredLow = 0;
+    var scoredMid = 0;
+    var scoredHigh = 0;
+    this.state.snapshot.forEach(entry => {
+      if (entry.get("matchNumber") === matchNum){
+        if (entry.get("allianceColor").toLowerCase() === alliance){
+          scoredLow += entry.get("teleLow")
+          scoredMid += entry.get("teleMid")
+          scoredHigh += entry.get("teleHigh")
+        }
+      }
+      
+    })
+    return [scoredLow, scoredMid, scoredHigh] // last one is for total
+  }
+
   point_data(matchNum, alliance){
     // requires state.data (should also be up to date)
     var total = 0;
@@ -148,8 +167,10 @@ class MatchListItem extends react.Component{
         collapseItems.push([element_id, mnum, //0,1
           this.get_match_teams(mnum, "blue"), //2
           this.get_match_teams(mnum, "red"), //3
-          this.point_average("finalBlue", mnum), //4 
-          this.point_average("finalRed", mnum), //5   
+          //this.point_average("finalBlue", mnum), //4 
+          //this.point_average("finalRed", mnum), //5  
+          this.object_data(mnum, 'blue'), //4
+          this.object_data(mnum, 'red'), //5
           this.balance_data(mnum, "blue"), //6
           this.balance_data(mnum, "red"), //7
           this.entry_amount(mnum), //8
