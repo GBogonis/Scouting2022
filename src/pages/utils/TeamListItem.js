@@ -56,6 +56,15 @@ class TeamListItem extends react.Component{
     average = average / results.length
     return average;
   }
+  
+  score_data(type, teamNum){
+    var results = []
+    this.state.snapshot.forEach(entry => {
+      if (entry.get("teamNumber") === teamNum){
+          results.push(entry.get(type));
+      }
+    })
+  }
 
   object_data(type, teamNum){
     var results = [] // ints only
@@ -140,7 +149,7 @@ class TeamListItem extends react.Component{
         var tmatches = db.getTeamMatches(tnum, this.state.snapshot)
         listgroupItems.push([element_id, tnum])
         collapseItems.push([element_id, tmatches, //0,1
-          this.point_average("teleLow", tnum), //2
+          this.point_average("teleLow", tnum), //2 //averages the amount of objects scored vs matches played by that team
           this.point_average("teleMid", tnum), //3
           this.point_average("teleHigh", tnum), //4
           this.point_average("autoLow", tnum), //5
@@ -149,9 +158,10 @@ class TeamListItem extends react.Component{
           this.balance_data(tnum), //8
           this.combine_notes(tnum), //9
           this.entry_amount(tnum), //10
-          this.total_points(tnum), //11
-          this.auto_move_data(tnum), //12
-          tnum //13
+          //idk about this one
+          //this.total_points(tnum), //11
+          this.auto_move_data(tnum), //11
+          tnum //12
         ])
         addedTeams.push(tnum);
       }
@@ -194,20 +204,19 @@ class TeamListItem extends react.Component{
           <CardBody>
             Matches: {entry[1].toString()}
             <h5>Teleop</h5>
-            Average Points: {entry[2]} low, {entry[3]} high
+            Average Points: {entry[2]} low, {entry[3]} mid, {entry[4]} high
             <br/><br/>
             <h5>Auto</h5>
-            Moved? {entry[10]} yes / {entry[10]}total<br/>
-            Average Points: {entry[4]} low, {entry[5]} high
+            Moved? {entry[11]} yes / {entry[11]}total<br/>
+            Average Points: {entry[5]} low, {entry[6]} mid, {entry[7]} high
             <br/><br/>
-            Average balance level: {entry[6]} <br/>
-            Max/best balance level reached: {humanize.ordinal(entry[8])} bar <br/>
-            Min/worst balance level reached: {humanize.ordinal(entry[8])} bar <br/>
-            All balances: {humanizeList(entry[8])}
+            Average balance level: {entry[8][0]} <br/>
+            best balance level reached: {humanize.ordinal(entry[8][1])} bar <br/>
+            worst balance level reached: {humanize.ordinal(entry[8][2])} bar <br/>
+            All balances: {humanizeList(entry[8][3])}
             <br/><br/>
-            Total points: {entry[9]} <br/>
-            Other notes: {entry[7]} <br/>
-            Times scouted: {entry[8]}
+            Other notes: {entry[9]} <br/>
+            Times scouted: {entry[10]}
           </CardBody>
         </Card>
       </UncontrolledCollapse>
