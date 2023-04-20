@@ -211,8 +211,8 @@ class TeamListItem extends react.Component{
             Average Points: {entry[5]} low, {entry[6]} mid, {entry[7]} high
             <br/><br/>
             Average balance level: {entry[8][0]} <br/>
-            best balance level reached: {humanize.ordinal(entry[8][1])} bar <br/>
-            worst balance level reached: {humanize.ordinal(entry[8][2])} bar <br/>
+            best balance level reached: {humanize.ordinal(entry[8][1])} <br/>
+            worst balance level reached: {humanize.ordinal(entry[8][2])} <br/>
             All balances: {humanizeList(entry[8][3])}
             <br/><br/>
             Other notes: {entry[9]} <br/>
