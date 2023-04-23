@@ -255,7 +255,7 @@ const Entry = (props) => {
                 None
               </option>
               <option>
-                Park (1)
+                Parked (1)
               </option>
               <option>
                 Docked (2)

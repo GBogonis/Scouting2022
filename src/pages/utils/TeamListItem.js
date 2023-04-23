@@ -91,6 +91,7 @@ class TeamListItem extends react.Component{
   balance_data(teamNum){
     // requires state.data (should also be up to date)
     var results = [] // ints only
+    var stringResults = []
     this.state.snapshot.forEach(entry => {
       if (entry.get("teamNumber") === teamNum){
         if (!(entry.get("balanceLevel") === "None")){
@@ -103,11 +104,48 @@ class TeamListItem extends react.Component{
       }
     })
     var average = 0;
+    var stringAverage
+    var stringHighest
     var highest = Math.max(...results);
-    var lowest = Math.min(...results);
+    //var lowest = Math.min(...results);
     results.forEach(n => average += n);
     average = average / results.length
-    return [average, highest, lowest, results];
+
+    if(average < 1){
+      stringAverage = "None"
+    }else if(average < 2){
+      stringAverage = "parked"
+    }else if(average < 2.5){
+      stringAverage = "docked"
+    }else if(average >= 2.5){
+      stringAverage = "engaged"
+    }
+
+    if(highest < 1){
+      stringHighest = "None"
+    }else if(highest < 2){
+      stringHighest = "parked"
+    }else if(highest < 2.5){
+      stringHighest = "docked"
+    }else if(highest >= 2.5){
+      stringHighest = "engaged"
+    }
+
+    for (var i = 0; i < results.length; i++) {
+      console.log(i)
+      if(i < 1){
+        stringResults.push("None")
+      }else if(i < 2){
+        stringResults.push("parked")
+      }else if(i < 2.5){
+        stringResults.push("docked")
+      }else if(i >= 2.5){
+        stringResults.push("engaaged")
+      }
+    }
+  
+
+    return [stringAverage, stringHighest, stringResults];
   }
 
   auto_move_data(teamNum){
@@ -211,9 +249,8 @@ class TeamListItem extends react.Component{
             Average Points: {entry[5]} low, {entry[6]} mid, {entry[7]} high
             <br/><br/>
             Average balance level: {entry[8][0]} <br/>
-            best balance level reached: {humanize.ordinal(entry[8][1])} <br/>
-            worst balance level reached: {humanize.ordinal(entry[8][2])} <br/>
-            All balances: {humanizeList(entry[8][3])}
+            best balance level reached: {entry[8][1]} <br/>
+            All balances: {entry[8][2]}
             <br/><br/>
             Other notes: {entry[9]} <br/>
             Times scouted: {entry[10]}
