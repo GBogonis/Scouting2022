@@ -132,19 +132,16 @@ class TeamListItem extends react.Component{
     }
 
     for (var i = 0; i < results.length; i++) {
-      console.log(i)
-      if(i < 1){
-        stringResults.push("None")
-      }else if(i < 2){
-        stringResults.push("parked")
-      }else if(i < 2.5){
-        stringResults.push("docked")
-      }else if(i >= 2.5){
-        stringResults.push("engaaged")
+      if(results[i] < 1){
+        stringResults.push("None, ");
+      }else if(results[i] < 2){
+        stringResults.push("parked, ");
+      }else if(results[i] < 2.5){
+        stringResults.push("docked, ");
+      }else if(results[i] >= 2.5){
+        stringResults.push("engaged, ");
       }
     }
-  
-
     return [stringAverage, stringHighest, stringResults];
   }
 
@@ -245,7 +242,7 @@ class TeamListItem extends react.Component{
             Average Points: {entry[2]} low, {entry[3]} mid, {entry[4]} high
             <br/><br/>
             <h5>Auto</h5>
-            Moved? {entry[11]} yes / {entry[11]}total<br/>
+            Moved? {entry[11][0]} yes / {entry[11][2]}total<br/>
             Average Points: {entry[5]} low, {entry[6]} mid, {entry[7]} high
             <br/><br/>
             Average balance level: {entry[8][0]} <br/>

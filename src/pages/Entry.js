@@ -306,7 +306,7 @@ const Entry = (props) => {
           <Input
             id="notes"
             name="text"
-            placeholder="Accurate? Where do they shoot from? When did they climb (if they did)? Overall how did they do?"
+            placeholder="Were they fast? Did they drop objects? How was their driving? Overall how did they do?"
             type="textarea"
             innerRef={(node) => formData.notes = node}
           />
